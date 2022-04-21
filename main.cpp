@@ -1,3 +1,10 @@
+/*
+	Resource list library (c) 2022 cam900
+	see https://github.com/cam900/resource_list/blob/main/LICENSE for details
+
+	Example usage of library
+*/
+
 #include "resource_list.hpp"
 #include <iostream>
 

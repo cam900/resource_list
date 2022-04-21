@@ -1,16 +1,17 @@
 /*
-	Resource list by cam900
+	Resource list library (c) 2022 cam900
+	see https://github.com/cam900/resource_list/blob/main/LICENSE for details
 
 	usage:
 
 	top of source:
-	#include "where/to/resource_list.hpp"
+	#include "location/of/resource_list.hpp"
 
 	construct:
 	resource_list<class> something;
 
 	destruct:
-	~something;
+	~something();
 
 	insert something to list:
 	resource_id a = something.insert(anything);
@@ -25,6 +26,8 @@
 
 	check error string:
 	get_error_string();
+
+	details are below
 */
 
 #ifndef _RESOURCE_LIST
@@ -66,7 +69,7 @@ public:
 	// add resource to list
 	resource_id insert(_Ty source)
 	{
-		error_string = "No error.";
+		no_error();
 		resource_id id = stored_list.size();
 		if (!deleted_list.empty())
 		{
@@ -79,7 +82,7 @@ public:
 
 	resource_id emplace(_Ty source)
 	{
-		error_string = "No error.";
+		no_error();
 		resource_id id = stored_list.size();
 		if (!deleted_list.empty())
 		{
@@ -93,7 +96,7 @@ public:
 	// remove resource from list
 	void erase(resource_id id)
 	{
-		error_string = "No error.";
+		no_error();
 		if (!stored_list.empty())
 		{
 			deleted_list.push(id);
@@ -109,7 +112,7 @@ public:
 	// get resource from list
 	_Ty get(resource_id id)
 	{
-		error_string = "No error.";
+		no_error();
 		if (!exists(id))
 		{
 			error_string = "Trying to accessing empty list!";
@@ -121,22 +124,29 @@ public:
 	// check resource exists in id
 	bool exists(resource_id id)
 	{
-		error_string = "No error.";
+		no_error();
 		return ((!empty()) && (stored_list.count(id) > 0));
 	}
 
 	// check if list is empty
 	bool empty()
 	{
-		error_string = "No error.";
+		no_error();
 		return stored_list.empty();
 	}
 
 	// check list size
 	std::size_t size()
 	{
-		error_string = "No error.";
+		no_error();
 		return stored_list.size();
+	}
+
+	// get list
+	std::unordered_map<resource_id, _Ty> list()
+	{
+		no_error();
+		return stored_list;
 	}
 
 	// get list begin
@@ -162,23 +172,21 @@ public:
 	}
 
 	// operator override
-	_Ty operator[](resource_id key) const
+	_Ty operator[](resource_id id) const
 	{
-		error_string = "No error.";
-		return stored_list[key];
+		no_error();
+		if (!exists(id))
+		{
+			error_string = "Trying to accessing empty list!";
+			return _Ty(0);
+		}
+		return stored_list[id];
 	}
 
 	// get error string
 	std::string get_error_string()
 	{
 		return error_string;
-	}
-
-	// get list
-	std::unordered_map<resource_id, _Ty> list()
-	{
-		error_string = "No error.";
-		return stored_list;
 	}
 
 private:
@@ -188,6 +196,11 @@ private:
 	std::unordered_map<resource_id, _Ty> stored_list;
 	std::priority_queue<resource_id, std::vector<resource_id>, std::greater<resource_id>> deleted_list;
 
+	// internal functions
+	void no_error()
+	{
+		error_string = "No error.";
+	}
 };
 
 #endif
