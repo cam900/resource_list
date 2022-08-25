@@ -1,6 +1,7 @@
 /*
-	Resource list library (c) 2022 cam900
-	see https://github.com/cam900/resource_list/blob/main/LICENSE for details
+	Resource list library
+	Copyright (c) 2022-present cam900 and contributors
+	see https://gitlab.com/cam900/resource_list/-/blob/main/LICENSE for details
 
 	usage:
 

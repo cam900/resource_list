@@ -1,6 +1,6 @@
-# resource_list
+# Resource list library
 
-ID based resource list class
+ID based resource list class library
 
 ## Important
 
